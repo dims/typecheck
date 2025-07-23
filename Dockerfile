@@ -1,14 +1,12 @@
 # Build stage
-FROM golang:1.23-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 # Install git for go modules
 RUN apk add --no-cache git
 
-# Set working directory
-WORKDIR /app
 
 # Copy go mod files
-COPY go.mod go.su[m] ./
+COPY go.mo[d] go.su[m] ./
 
 # Download dependencies
 RUN go mod download
@@ -32,7 +30,7 @@ RUN addgroup -g 1001 -S typecheck && \
 WORKDIR /root/
 
 # Copy the binary from builder stage
-COPY --from=builder /app/typecheck .
+COPY --from=builder /go/typecheck .
 
 # Change ownership to non-root user
 RUN chown typecheck:typecheck typecheck
