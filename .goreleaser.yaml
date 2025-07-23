@@ -67,6 +67,11 @@ dockers:
       - "ghcr.io/dims/typecheck:latest"
     dockerfile: Dockerfile
     use: buildx
+    push_flags:
+      - "--attest"
+      - "type=sbom"
+      - "--attest"
+      - "type=provenance"
     build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
