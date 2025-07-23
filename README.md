@@ -29,7 +29,7 @@ Download pre-built binaries from the [releases page](https://github.com/dims/typ
 ### Using Docker
 
 ```bash
-docker run --rm -v $(pwd):/workspace ghcr.io/dims/typecheck:latest /workspace
+docker run --rm -v $(pwd):/workspace ghcr.io/dims/typecheck:latest-arm64 --platform linux/arm64 --verbose
 ```
 
 ## Usage

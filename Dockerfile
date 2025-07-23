@@ -4,10 +4,9 @@ FROM golang:alpine
 # Install ca-certificates for HTTPS requests
 RUN apk --no-cache add ca-certificates
 
-WORKDIR /root/
+WORKDIR /workspace/
 
-# Copy the pre-built binary from goreleaser context
-COPY typecheck .
+COPY typecheck /
 
 # Command to run
-ENTRYPOINT ["./typecheck"]
+ENTRYPOINT ["/typecheck"]
