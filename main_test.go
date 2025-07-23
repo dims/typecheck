@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"golang.org/x/tools/go/packages"
+	"golang.org/x/tools/go/packages" //nolint:depguard
 )
 
 // This exists because `go` is not always in the PATH when running CI.

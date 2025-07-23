@@ -28,7 +28,7 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/tools/go/packages"
+	"golang.org/x/tools/go/packages" //nolint:depguard
 )
 
 var (
@@ -38,7 +38,7 @@ var (
 	timings        = flag.Bool("time", false, "output times taken for each phase")
 	defuses        = flag.Bool("defuse", false, "output defs/uses")
 	serial         = flag.Bool("serial", false, "don't type check platforms in parallel (equivalent to --parallel=1)")
-	parallel       = flag.Int("parallel", 2, "limits how many platforms can be checked in parallel. 0 means no limit.")
+	parallel       = flag.Int("parallel", 2, "limits how many platforms can be checked in parallel. 0 means no limit.") //nolint:mnd,lll
 	skipTest       = flag.Bool("skip-test", false, "don't type check test code")
 	tags           = flag.String("tags", "", "comma-separated list of build tags to apply in addition to go's defaults")
 	ignorePatterns = flag.String("ignore", "", "comma-separated list of Go patterns to ignore")
@@ -58,9 +58,9 @@ var (
 func newConfig(platform string) *packages.Config {
 	platSplit := strings.Split(platform, "/")
 	goos, goarch := platSplit[0], platSplit[1]
-	mode := packages.NeedName | packages.NeedFiles | packages.NeedTypes | packages.NeedSyntax | packages.NeedDeps | packages.NeedImports | packages.NeedModule
+	mode := packages.NeedName | packages.NeedFiles | packages.NeedTypes | packages.NeedSyntax | packages.NeedDeps | packages.NeedImports | packages.NeedModule //nolint:lll
 	if *defuses {
-		mode = mode | packages.NeedTypesInfo
+		mode = mode | packages.NeedTypesInfo //nolint:gocritic
 	}
 	env := append(os.Environ(),
 		"CGO_ENABLED=1",
@@ -187,7 +187,7 @@ func resolvePkgs(patterns ...string) (map[string]bool, error) {
 	return paths, nil
 }
 
-func main() {
+func main() { //nolint:funlen
 	flag.Parse()
 	args := flag.Args()
 
@@ -208,7 +208,7 @@ func main() {
 		log.Fatalf("failed to resolve ignored packages: %v", err)
 	}
 
-	plats := crossPlatforms[:]
+	plats := crossPlatforms[:] //nolint:gocritic
 	if *platforms != "" {
 		plats = strings.Split(*platforms, ",")
 	} else if !*cross {
