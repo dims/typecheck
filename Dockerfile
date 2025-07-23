@@ -1,5 +1,5 @@
 # Final stage only - goreleaser handles building
-FROM alpine:latest
+FROM golang:alpine
 
 # Install ca-certificates for HTTPS requests
 RUN apk --no-cache add ca-certificates
