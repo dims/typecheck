@@ -12,24 +12,10 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
-      - windows
       - darwin
     goarch:
-      - "386"
       - amd64
-      - arm
       - arm64
-    goarm:
-      - "7"
-    ignore:
-      - goos: darwin
-        goarch: "386"
-      - goos: darwin
-        goarch: arm
-      - goos: windows
-        goarch: arm
-      - goos: windows
-        goarch: arm64
     binary: typecheck
     ldflags:
       - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
@@ -61,10 +47,10 @@ changelog:
 
 dockers:
   - image_templates:
-      - "ghcr.io/dims/typecheck:{{ .Tag }}"
-      - "ghcr.io/dims/typecheck:v{{ .Major }}"
-      - "ghcr.io/dims/typecheck:v{{ .Major }}.{{ .Minor }}"
-      - "ghcr.io/dims/typecheck:latest"
+      - "ghcr.io/dims/typecheck:{{ .Tag }}-amd64"
+      - "ghcr.io/dims/typecheck:v{{ .Major }}-amd64"
+      - "ghcr.io/dims/typecheck:v{{ .Major }}.{{ .Minor }}-amd64"
+      - "ghcr.io/dims/typecheck:latest-amd64"
     dockerfile: Dockerfile
     use: buildx
     push_flags:
@@ -79,8 +65,48 @@ dockers:
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
       - "--label=org.opencontainers.image.source={{.GitURL}}"
-      - "--platform=linux/amd64,linux/arm64"
+      - "--platform=linux/amd64"
       - "--provenance=false"
+  - image_templates:
+      - "ghcr.io/dims/typecheck:{{ .Tag }}-arm64"
+      - "ghcr.io/dims/typecheck:v{{ .Major }}-arm64"
+      - "ghcr.io/dims/typecheck:v{{ .Major }}.{{ .Minor }}-arm64"
+      - "ghcr.io/dims/typecheck:latest-arm64"
+    dockerfile: Dockerfile
+    use: buildx
+    goarch: arm64
+    push_flags:
+      - "--attest"
+      - "type=sbom"
+      - "--attest"
+      - "type=provenance"
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source={{.GitURL}}"
+      - "--platform=linux/arm64"
+      - "--provenance=false"
+
+docker_manifests:
+  - name_template: "ghcr.io/dims/typecheck:{{ .Tag }}"
+    image_templates:
+      - "ghcr.io/dims/typecheck:{{ .Tag }}-amd64"
+      - "ghcr.io/dims/typecheck:{{ .Tag }}-arm64"
+  - name_template: "ghcr.io/dims/typecheck:v{{ .Major }}"
+    image_templates:
+      - "ghcr.io/dims/typecheck:v{{ .Major }}-amd64"
+      - "ghcr.io/dims/typecheck:v{{ .Major }}-arm64"
+  - name_template: "ghcr.io/dims/typecheck:v{{ .Major }}.{{ .Minor }}"
+    image_templates:
+      - "ghcr.io/dims/typecheck:v{{ .Major }}.{{ .Minor }}-amd64"
+      - "ghcr.io/dims/typecheck:v{{ .Major }}.{{ .Minor }}-arm64"
+  - name_template: "ghcr.io/dims/typecheck:latest"
+    image_templates:
+      - "ghcr.io/dims/typecheck:latest-amd64"
+      - "ghcr.io/dims/typecheck:latest-arm64"
 
 release:
   github:
