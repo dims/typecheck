@@ -6,6 +6,8 @@
 
 A fast cross-platform Go typechecker that performs typechecking for all Go build platforms without requiring a full cross-compilation.
 
+Extracted from: https://github.com/kubernetes/kubernetes/tree/master/test/typecheck
+
 ## Overview
 
 Typecheck does cross-platform typechecking of source code for all Go build platforms. The primary benefit is speed: a full Kubernetes cross-build takes 20 minutes and >40GB of RAM, while this takes under 2 minutes and <8GB of RAM.
