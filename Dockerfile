@@ -4,13 +4,6 @@ FROM golang:1.24-alpine AS builder
 # Install git for go modules
 RUN apk add --no-cache git
 
-
-# Copy go mod files
-COPY go.mo[d] go.su[m] ./
-
-# Download dependencies
-RUN go mod download
-
 # Copy source code
 COPY . .
 
